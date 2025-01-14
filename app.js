@@ -1,7 +1,7 @@
 const express = require('express')
 const mysql = require('mysql2');
 const app = express()
-const port = 3000
+const port = 3088
 
 // Middleware para parse de JSON no corpo da requisição
 app.use(express.json());
@@ -95,7 +95,7 @@ app.put('/api/songs/:id', (req, res) => {
 });
 
 // Rota para apagar um user pelo ID
-app.delete('/users/:id', (req, res) => {
+app.delete('/api/songs/:id', (req, res) => {
   const id = req.params.id;
 
   const query = `DELETE FROM ${NOME_TABELA} WHERE id = ${id}`;
@@ -109,6 +109,7 @@ app.delete('/users/:id', (req, res) => {
     res.status(200).send('user removido com sucesso!');
   });
 });
+
 
 // Código para Exercícios passados
 
