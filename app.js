@@ -110,6 +110,41 @@ app.delete('/api/songs/:id', (req, res) => {
   });
 });
 
+app.get('/api/songs/:id', (req, res) => {
+  const id = req.params.id;
+\
+  // Onde definimos a query
+  const myQuery = `Select * FROM ${NOME_TABELA} where id=${id}`
+
+  // Executa a myQuery
+  connection.query(myQuery, (err, results) => {
+
+    // Dar erro se err existir
+    if (err) {
+      return res.status(500).send('Erro ao buscar users: ' + err.message);
+    }
+
+    // Enviar resposta
+    res.json(results);
+  });
+  
+});
+
+let priceperlike = 0.1
+
+app.get('/api/price', (req, res) => {
+   
+  
+  const result = {
+    priceperlike
+  }
+     
+
+    // Enviar resposta
+    res.json(priceperlike);
+  });
+  
+
 
 // Código para Exercícios passados
 
