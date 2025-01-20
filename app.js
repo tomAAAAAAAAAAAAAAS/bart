@@ -112,7 +112,6 @@ app.delete('/api/songs/:id', (req, res) => {
 
 app.get('/api/songs/:id', (req, res) => {
   const id = req.params.id;
-\
   // Onde definimos a query
   const myQuery = `Select * FROM ${NOME_TABELA} where id=${id}`
 
@@ -134,16 +133,123 @@ let priceperlike = 0.1
 
 app.get('/api/price', (req, res) => {
    
-  
-  const result = {
-    priceperlike
+  const resultado = {
+      "price": priceperlike
   }
-     
+    res.json(resultado);
+ 
+});
 
-    // Enviar resposta
-    res.json(priceperlike);
-  });
+  app.put('/api/price', (req, res) => {
+    if (priceperlike !=null ){
+     priceperlike=req.body.price;
+     res.sendStatus(200)
+    }else{
+     res.sendStats(400)
+    }
+   });
+
   
+   app.get('/api/songs/:id/revenue' , (req, res) => {
+    const id = req.params.id;
+ 
+    const myQuery = `SELECT * FROM ${NOME_TABELA} WHERE id = ${id}` ;
+ 
+    connection.query(myQuery, (err, results) => {
+      if(err) {
+        return res.status(500).send('Erro ao buscar ´songs: ' + err.message);
+      }
+ 
+      const revenue = {
+        "revenue": results[0].likes * priceperlike
+      }
+      res.json(revenue);
+    }) ;
+  });
+ 
+  const bands = [
+    {
+      "artist": "Piruka" ,
+      "band_members": "Piruka"
+    }
+  ]
+
+  app.get('/api/songs/:id/band' , (req, res) => {
+    const id = req.params.id;
+ 
+    const myQuery = `SELECT * FROM ${NOME_TABELA} WHERE id = ${id}` ;
+ 
+    connection.query(myQuery, (err, results) => {
+      if(err) {
+        return res.status(500).send('Erro ao buscar songs: ' + err.message);
+      }
+   
+ 
+    for (let i = 0; i<bands.length; i++) {
+      if (bands[i].artist == results[0].artist ) {
+ 
+        return res.send(bands[i]);
+ 
+         
+  }}
+ 
+    return res.sendStatus(404)
+  });
+ 
+
+});
+
+app.post('/api/songs/:id/band', (req, res) =>{;
+ 
+  const ID = req.params.id;
+  const band_members = req.body.band_members;
+  const myQuery = `SELECT artist FROM songs where id = ${ID}`
+ 
+  connection.query(myQuery, (err, results) => {
+      if (err) {
+          return res.status(500).send('Erro ao buscar a songs: ' + err.message);
+      }
+      const Banda = {
+          "artist": results[0].artist,
+          "band_members": band_members
+      }
+      bands.push(Banda);
+      console.log(bands)
+      res.sendStatus(200);
+  });
+});
+ 
+
+app.put('/api/songs/:id/band', (req, res) =>{;
+ 
+  const ID = req.params.id;
+  const band_members = req.body.band_members;
+  const myQuery = `SELECT artist FROM songs where id = ${ID}`
+ 
+  connection.query(myQuery, (err, results) => {
+      if (err) {
+          return res.status(500).send('Erro ao buscar a musica: ' + err.message);
+      }
+      if (results.length !== 0){
+ 
+          for (let i=0; i < bands.length; i++){
+              if (bands[i].artist == results[0].artist){
+                  bands[i].band_members = req.body.band_members;
+                  return res.sendStatus(200);
+              }
+          }
+          res.status(404).send('Artista não encontrado a ');
+      }else{
+          res.status(404).send('Artista não encontrado  b');
+      }
+ 
+});
+});
+ 
+
+
+
+ 
 
 
 // Código para Exercícios passados
