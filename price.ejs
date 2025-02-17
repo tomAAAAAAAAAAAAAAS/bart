@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Preço por Like </title>
+</head>
+<body>
+
+    <%- include("header") %>
+    
+    <h1> Editar preço por Like: </h1>
+
+    <br>
+    <form>
+        <label for="preiceperlike"> Preço por Like: </label>
+            <input type="text" name="price" id="price" placeholder="<%= price %>">
+            <button type="submit"> Atualizar </button>
+    </form>
+
+    <script>
+        document.getElementById('price-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
+        axios.put(`/api/price`, data)
+        .then(response => {
+            console.log('Success:', response.data);
+            location.reload();
+            // Handle success (e.g., show a success message, redirect, etc.)
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // Handle error (e.g., show an error message)
+        });
+    });
+</script>
+    
+</body>
+</html>

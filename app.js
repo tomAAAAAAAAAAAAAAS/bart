@@ -487,4 +487,31 @@ app.post('/api/songs/bulk', (req, res) => {
 PARA ADICIONAR PARTE 2
 
 ***/
+app.listen(port, () => {
+  console.log(`Example app listening on http://localhost:${port}`)
+})
 
+app.get('/' , (req, res) => {
+  res.render('home')
+})
+
+app.get('/lista' , (req,res) => {
+  axios.get('http://localhost:3000/api/songs')
+  .then(response =>{
+    console.log('Success:',response.data);
+    res.render('lista',{songs:response.data})
+  })
+  .catch((error)=>{
+    console.error('Error',error);
+  });
+
+})
+
+
+app.get('/add' , (req,res) => {
+  res.render('add')
+})
+
+app.get('/priceperlike' , (req,res) => {
+  res.render('priceperlike', {price:priceperlike})
+})

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title> LISTA </title>
+</head>
+<body>
+    <%- include("header") %>
+
+    <h1> Listagem de músicas disponíveis: </h1>
+<table border="1">
+    <tr>
+        <th> Título </th>
+        <th> Artista </th>
+        <th> Album </th>
+        <th> Genero </th>
+        <th> Duração (Sec) </th>
+        <th> Likes </th>
+        <th> Data </th>
+        <th> Remover </th>
+    </tr>
+
+    <% for (let i = 0; i < songs.length; i++) { %> 
+
+    <tr> 
+        <td> <%= songs[i].title %> </td>
+        <td> <%= songs[i].artist %> </td>
+        <td> <%= songs[i].album %> </td>
+        <td> <%= songs[i].genre %> </td>
+        <td> <%= songs[i].duration_seconds %> </td>
+        <td> <%= songs[i].likes %> </td>
+        <td> <%= songs[i].release_date %> </td>
+        <td> <%= songs[i].created_at %> </td>
+        <td> <button onclick="remover_musica(<%= songs[i].id %>)">Remover </button> </td>
+    </tr>
+    <% } %>
+
+<script>
+
+    function remover_musica(index){
+    let id= index;
+    axios.delete(`/api/songs/${id}`, data)
+    .then(response => {
+        console.log('Success:', response.data);
+        location.reload();
+        // Handle success (e.g., show a success message, redirect, etc.)
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        // Handle error (e.g., show an error message)
+    });
+};
+</script>
+
+</table>
+</body>
+</html> 

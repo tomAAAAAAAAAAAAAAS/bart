@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title> Adicionar Música </title>
+</head>
+<body>
+
+    <%- include("header") %>
+
+    <h1> Criar nova música </h1>
+
+    <form id="add-form"> 
+        <label for="title"> Título </label>
+        <input type="text" name="title" id="title">
+        <br>
+        <label for="artist"> Artista </label>
+        <input type="text" name="artist" id="artist">
+        <br>
+        <label for="genre"> Género </label>
+        <input type="text" name="genre" id="genre">
+        <br>
+        <label for="album"> Album </label>
+        <input type="text" name="album" id="album">
+        <br>
+        <label for="duration_seconds"> Duração(Segundos) </label>
+        <input type="text" name="durseconds" id="durseconds">
+        <br>
+        <label for="release_date"> Data de Lançamento </label>
+        <input type="date" name="date" id="date">
+        <br>
+        <label for="likes"> Nº de Likes </label>
+        <input type="text" name="likes" id="likes">
+        <button type="submit"> Adicionar </button>
+    </form>
+
+    <script>
+            document.getElementById('add-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+    
+            axios.post(`/api/songs`, data)
+            .then(response => {
+                console.log('Success:', response.data);
+                location.reload();
+                // Handle success (e.g., show a success message, redirect, etc.)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle error (e.g., show an error message)
+            });
+        });
+    </script>
+    
+</body>
+</html>
