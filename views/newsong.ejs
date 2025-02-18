@@ -12,7 +12,7 @@
 
     <h1> Criar nova música </h1>
 
-    <form id="add-form"> 
+    <form id="newsong-form"> 
         <label for="title"> Título </label>
         <input type="text" name="title" id="title">
         <br>
@@ -37,7 +37,7 @@
     </form>
 
     <script>
-            document.getElementById('add-form').addEventListener('submit', function(event) {
+            document.getElementById('newsong-form').addEventListener('submit', function(event) {
             event.preventDefault();
     
             const formData = new FormData(event.target);

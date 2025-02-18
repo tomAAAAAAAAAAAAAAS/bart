@@ -10,7 +10,7 @@
     <%- include("header") %>
 
     <h1> Listagem de músicas disponíveis: </h1>
-<table border="1">
+<table border="2">
     <tr>
         <th> Título </th>
         <th> Artista </th>
@@ -25,6 +25,7 @@
     <% for (let i = 0; i < songs.length; i++) { %> 
 
     <tr> 
+        <td> <%= songs[i].id %> </td>
         <td> <%= songs[i].title %> </td>
         <td> <%= songs[i].artist %> </td>
         <td> <%= songs[i].album %> </td>
@@ -32,8 +33,7 @@
         <td> <%= songs[i].duration_seconds %> </td>
         <td> <%= songs[i].likes %> </td>
         <td> <%= songs[i].release_date %> </td>
-        <td> <%= songs[i].created_at %> </td>
-        <td> <button onclick="remover_musica(<%= songs[i].id %>)">Remover </button> </td>
+        <td> <button onclick="remover_musica(`<%= songs[i].id %>`)">Remover </button> </td>
     </tr>
     <% } %>
 
@@ -41,7 +41,7 @@
 
     function remover_musica(index){
     let id= index;
-    axios.delete(`/api/songs/${id}`, data)
+    axios.delete(`/api/songs/${id}`)
     .then(response => {
         console.log('Success:', response.data);
         location.reload();

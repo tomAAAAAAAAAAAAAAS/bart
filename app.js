@@ -4,6 +4,7 @@
 const express = require('express')
 const mysql = require('mysql2');
 const app = express()
+const axios = require('axios');
 
 // Constantes do Projeto
 const port = 3000
@@ -454,6 +455,7 @@ app.post('/api/songs/bulk', (req, res) => {
   if (!Array.isArray(newSongs) || newSongs.length === 0) {
     return res.status(400).json({ error: 'Songs should be an array and cannot be empty' });
   }
+  
 
   for(let i = 0; i < newSongs.length; i++) {
     
@@ -487,9 +489,8 @@ app.post('/api/songs/bulk', (req, res) => {
 PARA ADICIONAR PARTE 2
 
 ***/
-app.listen(port, () => {
-  console.log(`Example app listening on http://localhost:${port}`)
-})
+
+app.set ('view engine', 'ejs');
 
 app.get('/' , (req, res) => {
   res.render('home')
@@ -508,10 +509,10 @@ app.get('/lista' , (req,res) => {
 })
 
 
-app.get('/add' , (req,res) => {
-  res.render('add')
+app.get('/newsong' , (req,res) => {
+  res.render('newsong')
 })
 
-app.get('/priceperlike' , (req,res) => {
-  res.render('priceperlike', {price:priceperlike})
+app.get('/price' , (req,res) => {
+  res.render('price', {price:price})
 })
