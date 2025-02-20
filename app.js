@@ -105,14 +105,14 @@ app.get('/api/songs', (req, res) => {
 // Rota para adicionar uma música 
 app.post('/api/songs', (req, res) => {
 
-  const {title, artist, album, genre, duration_seconds, release_date, likes} = req.body;
+  const {title, artist, album, genre, duration_secs, release_date, likes} = req.body;
 
   // Validação dos campos obrigatórios
   if (!title || !artist) {
     return res.status(400).send('Campos obrigatórios: title, artist');
   }
 
-  const query = `INSERT INTO ${NOME_TABELA} (title, artist, album, genre, duration_seconds, release_date, likes) VALUES ("${title}", "${artist}", "${album}", "${genre}", "${duration_seconds}", "${release_date}", "${likes}")`;
+  const query = `INSERT INTO ${NOME_TABELA} (title, artist, album, genre, duration_secs, release_date, likes) VALUES ("${title}", "${artist}", "${album}", "${genre}", "${duration_secs}", "${release_date}", "${likes}")`;
 
   connection.query(query, (err, results) => {
     if (err) {
@@ -131,14 +131,14 @@ app.put('/api/songs/:id', (req, res) => {
     return res.status(400).send('ID da música não é válido');
   }
 
-  const {title, artist, album, genre, duration_seconds, release_date, likes} = req.body;
+  const {title, artist, album, genre, duration_secs, release_date, likes} = req.body;
 
   // Validação dos campos obrigatórios
   if (!title || !artist) {
     return res.status(400).send('Campos obrigatórios: title, artist');
   }
 
-  const query = `UPDATE ${NOME_TABELA} SET title = "${title}", artist = "${artist}", album = "${album}", genre = "${genre}", duration_seconds = "${duration_seconds}", release_date = "${release_date}", likes = "${likes}" WHERE id = "${id}"`;
+  const query = `UPDATE ${NOME_TABELA} SET title = "${title}", artist = "${artist}", album = "${album}", genre = "${genre}", duration_secs = "${duration_secs}", release_date = "${release_date}", likes = "${likes}" WHERE id = "${id}"`;
 
   connection.query(query, (err, results) => {
     if (err) {
@@ -460,14 +460,14 @@ app.post('/api/songs/bulk', (req, res) => {
   for(let i = 0; i < newSongs.length; i++) {
     
     // Obter os campos da música 1 a 1
-    const {title, artist, album, genre, duration_seconds, release_date, likes} = newSongs[i];
+    const {title, artist, album, genre, duration_secs, release_date, likes} = newSongs[i];
 
     // Validação dos campos obrigatórios
     if (!title || !artist) {
       return res.status(400).send('Campos obrigatórios: title, artist');
     }
 
-    const query = `INSERT INTO ${NOME_TABELA} (title, artist, album, genre, duration_seconds, release_date, likes) VALUES ("${title}", "${artist}", "${album}", "${genre}", "${duration_seconds}", "${release_date}", "${likes}")`;
+    const query = `INSERT INTO ${NOME_TABELA} (title, artist, album, genre, duration_secs, release_date, likes) VALUES ("${title}", "${artist}", "${album}", "${genre}", "${duration_secs}", "${release_date}", "${likes}")`;
 
     connection.query(query, (err, results) => {
       if (err) {
@@ -507,7 +507,6 @@ app.get('/lista' , (req,res) => {
   });
 
 })
-
 
 app.get('/newsong' , (req,res) => {
   res.render('newsong')
