@@ -13,10 +13,16 @@
     <p> Utilize o menu acima para navegar pelas diferentes funcionalidades da aplicação</p>
     <p> Obter uma música </p>
     
-    <form id="musicas"></form>
     <label for="musicaid"> Id da música: </label>
     <input type="text" name="musicaid" id="musicaid">
-    <button type="submit"> Obter </button>
+    <button type="submit" onclick="redirecionar()"> Obter </button>
+
+    <script> 
+    function redirecionar() {
+    let id = document.getElementById("musicaid").value
+    window.location.href = `http://localhost:3001/song/${id}` ;
+    }
+    </script>
 
 </body>
 </html>

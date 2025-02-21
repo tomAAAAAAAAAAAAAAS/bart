@@ -12,6 +12,7 @@
     <h1> Listagem de músicas disponíveis: </h1>
 <table border="2">
     <tr>
+        <th> id </th>
         <th> Título </th>
         <th> Artista </th>
         <th> Album </th>
@@ -30,7 +31,7 @@
         <td> <%= songs[i].artist %> </td>
         <td> <%= songs[i].album %> </td>
         <td> <%= songs[i].genre %> </td>
-        <td> <%= songs[i].duration_seconds %> </td>
+        <td> <%= songs[i].duration_secs %> </td>
         <td> <%= songs[i].likes %> </td>
         <td> <%= songs[i].release_date %> </td>
         <td> <button onclick="remover_musica(`<%= songs[i].id %>`)">Remover </button> </td>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title> Página da Música </title>
+</head>
+<body>
+
+    <%- include('header') %>
+    
+        <h1> Música ID: <%= songs[0].id %> </h1>
+        <hr>
+        <table border="1">
+            <tr>
+                <th> Título </th>
+                <th> Artista </th>
+                <th> Album </th>
+                <th> Genero </th>
+                <th> Duração (Sec) </th>
+                <th> Likes </th>
+                <th> Data </th>
+                <th> Data Criada </th>
+            </tr>
+        
+        
+            <tr> 
+                <td> <%= songs[0].id %> </td>
+                <td> <%= songs[0].title %> </td>
+                <td> <%= songs[0].artist %> </td>
+                <td> <%= songs[0].album %> </td>
+                <td> <%= songs[0].genre %> </td>
+                <td> <%= songs[0].duration_secs %> </td>
+                <td> <%= songs[0].likes %> </td>
+                <td> <%= songs[0].release_date %> </td>
+            </tr>
+        </table>
+        <hr>
+        <h2> Receitas </h2>
+        <p> A música gerou: <%= (songs[0].likes * price) %> € </p>
+        <hr>
+
+
+        <h2> Editar Música </h2>
+        
+
+        <form id="update-form"> 
+
+            <label for="title"> Título </label>
+            <input type="text" name="title" id="title">
+            <br>
+            <label for="artist"> Artista </label>
+            <input type="text" name="artist" id="artist">
+            <br>
+            <label for="genre"> Género </label>
+            <input type="text" name="genre" id="genre">
+            <br>
+            <label for="album"> Album </label>
+            <input type="text" name="album" id="album">
+            <br>
+            <label for="duration_seconds"> Duração(Segundos) </label>
+            <input type="text" name="duration_secs" id="durseconds">
+            <br>
+            <label for="release_date"> Data de Lançamento </label>
+            <input type="date" name="release_date" id="date">
+            <br>
+            <label for="likes"> Nº de Likes </label>
+            <input type="text" name="likes" id="likes">
+            <input type="text" name="likes" id="likes" value="<%= songs[0].likes %>">
+            <button type="submit"> Editar </button>
+        </form>
+
+        <hr>
+        <h2> Letra da Música </h2>
+        <span id="1verse"></span>
+    
+        <script>
+            axios.get(`https://api.lyrics.ovh/v1/<%=songs[0].artist%>/<%=songs[0].title%>`)
+            .then(response => {
+                let lyrics = response.data.lyrics.replace(/\n/g, "<br>");
+                document.getElementById("1verse").innerHTML = lyrics;
+            })
+            .catch(error =>document.getElementById("1verse").innerHTML = "Erro ao Buscar Lyrics");
+        </script>
+
+        <script>
+            document.getElementById('update-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            axios.put(`/api/songs/<%= songs[0].id %>`, data)
+            .then(response => {
+                console.log('Success:', response.data);
+                location.reload();
+                // Handle success (e.g., show a success message, redirect, etc.)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle error (e.g., show an error message)
+            });
+        });
+
+
+</script>
+</body>
+</html>
